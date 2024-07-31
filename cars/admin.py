@@ -3,13 +3,21 @@ from cars.models import Car, Brand
 
 
 class BrandAdmin(admin.ModelAdmin):
-    list_display = ("name",)
+    list_display = ("name", "created_at", "updated_at")
     search_fields = ("name",)
 
 
 class CarAdmin(admin.ModelAdmin):
-    list_display = ("model", "brand", "factory_year", "model_year", "value")
-    search_fields = ("model",)
+    list_display = (
+        "model",
+        "brand",
+        "factory_year",
+        "model_year",
+        "value",
+        "created_at",
+        "updated_at",
+    )
+    search_fields = ("model", "value")
 
 
 admin.site.register(Car, CarAdmin)
