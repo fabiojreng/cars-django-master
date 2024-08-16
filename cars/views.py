@@ -1,4 +1,3 @@
-from django.shortcuts import redirect, render
 from cars.models import Car
 from cars.forms import CarModelForm
 from django.views.generic import ListView, CreateView
