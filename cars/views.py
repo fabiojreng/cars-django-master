@@ -35,3 +35,8 @@ class CarUpdateView(UpdateView):
     form_class = CarModelForm
     template_name = "car_update.html"
     success_url = "/cars/"
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields["model"].disabled = True
+        return form
