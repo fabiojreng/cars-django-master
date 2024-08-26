@@ -21,3 +21,13 @@ class CarModelForm(forms.ModelForm):
                 "Não é possível inserir carro com ano de fabricação menor que 2000",
             )
         return factory_year
+
+    def clean_model_year(self):
+        model_year = self.cleaned_data.get("model_year")
+        factory_year = self.cleaned_data.get("factory_year")
+
+        if abs(factory_year - model_year) > 1:
+            self.add_error(
+                "model_year", "Modelo de carro não compatível com o ano de fabricação"
+            )
+        return model_year
