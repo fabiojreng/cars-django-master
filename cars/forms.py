@@ -1,5 +1,6 @@
 from django import forms
 from cars.models import Car
+import re
 
 
 class CarModelForm(forms.ModelForm):
@@ -31,3 +32,19 @@ class CarModelForm(forms.ModelForm):
                 "model_year", "Modelo de carro não compatível com o ano de fabricação"
             )
         return model_year
+
+    def clean_plate(self):
+        if self.instance:
+            return self.instance.plate
+
+        plate = self.cleaned_data.get("plate", "").strip()
+        plate = re.sub(r"[^A-Za-z0-9]", "", plate)
+        plate = plate.upper()
+
+        if not re.match(r"^[A-Z]{3}[0-9][A-Z][0-9]{2}$", plate):
+            self.add_error("plate", "Placa inválida. Use o formato ABC1B23.")
+
+        if Car.objects.filter(plate=plate).exists():
+            self.add_error("plate", "Existe veículo com esta placa cadastrada.")
+
+        return plate
