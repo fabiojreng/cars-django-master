@@ -34,7 +34,7 @@ class CarModelForm(forms.ModelForm):
         return model_year
 
     def clean_plate(self):
-        if self.instance:
+        if self.instance.plate:
             return self.instance.plate
 
         plate = self.cleaned_data.get("plate", "").strip()
